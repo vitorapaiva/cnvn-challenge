@@ -1,72 +1,64 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# Teste Convenia
+Neste teste você deve criar uma aplicação em que empresas possam gerir seus fornecedores e suas respectivas mensalidades. Para isso serão necessárias as seguintes as seguintes funcionalidades.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## Cadastro de usuários e empresas
+Para utilizar a API o usuário deve estar cadastrado e autenticado no sistema. Você pode escolher tratar a empresa como usuário ou separar usuário de empresa, contudo é importante que o usuário cadastre uma senha e um e-mail no sistema. Também é necessário que se registre as seguintes informações da empresa:
+- Nome 
+- Telefone 
+- Endereço 
+- CEP 
+- CNPJ
 
-## About Laravel
+## Cadastro de fornecedores
+Uma vez autenticado, o usuário/empresa poderá cadastrar, listar e deletar os seus fornecedores. Cada fornecedor deverá ter:
+- Nome 
+- E-mail 
+- Mensalidade
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Ativação de fornecedores
+Após o usuário cadastrar um fornecedor, o sistema deve enviar um e-mail para o mesmo, neste e-mail existirá um link de ativação do fornecedor.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Total de mensalidades
+Deve-se ter um endpoint em que um usuário pode verificar o custo total resultante da soma de todas as mensalidades dos fornecedores da empresa.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Pontos obrigatórios
+Os pontos abaixo devem ser obrigatoriamente contemplados no teste.
+- Usar o framework Laravel
+- Testes: sua aplicação deve conter testes, como você os faz fica a seu critério.
+- Validação de input: todos os endpoints de criação e edição devem conter validações dos dados do input. 
+- Job: Deve-se utilizar alguma forma de Job 
+- Relacionamentos: deve-se utilizar algum forma de relacionamentos entre tabelas 
+- Autenticação 
+- Proteção de dados: usuários/diferentes empresas não devem poder acessar dados de outras empresas nem de fornecedores que não sejam os seus. 
+- Cache: todas as chamadas ao banco de dados devem ser cacheadas. 
 
-## Learning Laravel
+## Bônus 
+Os pontos abaixo são bônus:
+- SOLID 
+- Design Patterns 
+- Event Driven 
+- GraphQL 
+- OAuth2 ou JWT 
+- Utilizar o ambiente em Docker
+Divirta-se, seja criativo e sinta-se à vontade para tirar dúvidas.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+----------------------------------------------------------------------------------------------------------
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1400 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#Solução
 
-## Laravel Sponsors
+## Para levantar projeto
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+* git clone https://github.com/vitorapaiva/vs-challenge
+* composer install
+* Criar arquivo .env
+* php artisan key:generate
+* php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+* php artisan jwt:secret
+* Configurar informações de seu banco de dados no seu .env
+* php artisan migrate
+* php artisan serve
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
