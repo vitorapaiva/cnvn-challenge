@@ -48,7 +48,7 @@ Divirta-se, seja criativo e sinta-se à vontade para tirar dúvidas.
 
 ## Para levantar projeto
 
-* git clone https://github.com/vitorapaiva/vs-challenge
+* git clone https://github.com/vitorapaiva/cnvn-challenge
 * composer install
 * Criar arquivo .env
 * php artisan key:generate
