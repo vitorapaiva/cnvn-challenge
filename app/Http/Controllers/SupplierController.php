@@ -3,45 +3,44 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Model\Supplier\SupplierRepository;
-use App\Http\Model\Company\CompanyRepository;
+use App\Http\Model\Supplier\SupplierInterface;
+use Auth;
 
 
 class SupplierController extends Controller
 {
 
     private $supplierRepo;
-    private $companyRepo;
+    private $user;
 
-    public function __construct(SupplierRepository $supplierRepo,
-                                CompanyRepository $companyRepo)
+    public function __construct(SupplierInterface $supplierRepo)
     {
         $this->supplierRepo=$supplierRepo;
-        $this->companyRepo=$companyRepo;
+        $this->user = Auth::user();
     }
 
-    public function add(){
-    	$company_list=$this->companyRepo->getBrandList();
-    }
-
-    public function addStore(Request $request){
+    public function createSupplier(Request $request){
         $validatedData = $request->validate([
-        'supplier_name' => 'required|max:255',
-        'company_id' => 'required'
+        'suppliers_name' => 'string|required',
+        'suppliers_email' => 'email|required',
+        'suppliers_fee' => 'numeric|required'
         ]);    	
-        $supplier=$this->supplierRepo->createSupplier($request->except('_token'));
+        $supplier=$this->supplierRepo->createSupplier($this->user->company_id,$request->except('_token'));
+        return response()->json($supplier);
     }
 
-    public function edit($supplier_id){
-        $supplier=$this->supplierRepo->getSupplier($supplier_id);
-    	$company_list=$this->companyRepo->getBrandList();
+    public function editSupplier($suppliers_id,Request $request){
+        $validatedData = $request->validate([
+        'suppliers_name' => 'string',
+        'suppliers_email' => 'email',
+        'suppliers_fee' => 'numeric'
+        ]);    
+        $supplier=$this->supplierRepo->editSupplier($this->user->company_id,$suppliers_id,$request->except('_token'));
+        return response()->json($supplier);
     }
 
-    public function editStore($supplier_id,Request $request){
-        $this->supplierRepo->editSupplier($supplier_id,$request->except('_token'));
-    }
-
-    public function delete($supplier_id){
-    	$this->supplierRepo->deleteSupplier($supplier_id);
+    public function deleteSupplier($suppliers_id){
+    	$supplier=$this->supplierRepo->deleteSupplier($this->user->company_id,$suppliers_id);
+        return response()->json($supplier);
     }
 }
