@@ -24,8 +24,8 @@ Route::group(['middleware' => ['api','auth'], 'prefix' => 'auth'], function () {
 
 Route::group(['middleware' => ['api','auth'],'prefix' => 'supplier'],function (){
     Route::get('supplier/all','SupplierController@getAllSupplier')->name('supplier.getAllSupplier');
-    Route::get('supplier/get/{suppliers_id}','SupplierController@getSupplier')->name('supplier.getSupplier');
-    Route::post('supplier/','SupplierController@createSupplier')->name('supplier.createSupplier');
-    Route::put('supplier/{supplier_id}','SupplierController@editSupplier')->name('supplier.editSupplier');
-    Route::delete('supplier/{supplier_id}','SupplierController@deleteSupplier')->name('supplier.deleteSupplier');
+    Route::get('get/{suppliers_id}','SupplierController@getSupplier')->name('supplier.getSupplier');
+    Route::post('add/','SupplierController@createSupplier')->name('supplier.createSupplier');
+    Route::put('edit/{supplier_id}','SupplierController@editSupplier')->name('supplier.editSupplier');
+    Route::delete('delete/{supplier_id}','SupplierController@deleteSupplier')->name('supplier.deleteSupplier');
 });

@@ -50,7 +50,7 @@ class SupplierTest extends TestCase
             'Authorization' => 'Bearer '. $token,
         ])->json('POST',route('supplier.createSupplier'),[
             'suppliers_name' => 'Convenia',
-            'suppliers_email' => 'vitorapaiva@gmail.com',
+            'suppliers_email' => 'teste-supplier@email.com',
             'suppliers_fee' => 10.2,
         ]);
 
@@ -67,7 +67,7 @@ class SupplierTest extends TestCase
             'Authorization' => 'Bearer '. $token,
         ])->json('POST',route('supplier.createSupplier'),[
             'suppliers_name' => 'Convenia',
-            'suppliers_email' => 'vitorapaiva@gmail.com',
+            'suppliers_email' => 'teste-supplier@email.com',
             'suppliers_fee' => 10.2,
         ])->getData();
         //edit the supplier
@@ -93,7 +93,7 @@ class SupplierTest extends TestCase
             'Authorization' => 'Bearer '. $token,
         ])->json('POST',route('supplier.createSupplier'),[
             'suppliers_name' => 'Convenia',
-            'suppliers_email' => 'vitorapaiva@gmail.com',
+            'suppliers_email' => 'teste-supplier@email.com',
             'suppliers_fee' => 10.2,
         ])->getData();
 

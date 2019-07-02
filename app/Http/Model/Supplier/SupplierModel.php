@@ -14,4 +14,9 @@ class SupplierModel extends Model
     {
         return $this->hasOne('App\Http\Model\Company\CompanyModel','company_id','company_id');
     }
+
+	public function verifySupplier()
+    {
+      return $this->hasOne('App\Http\Model\VerifySupplier\VerifySupplierModel', 'suppliers_id');
+    }
 }
