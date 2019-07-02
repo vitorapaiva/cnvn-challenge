@@ -79,7 +79,7 @@ Divirta-se, seja criativo e sinta-se à vontade para tirar dúvidas.
 * 'password'=> 'required'
 
 ## Cadastro de fornecedores
-* POST | api/supplier/
+* POST | api/supplier/add
 
 ### Campos
 * 'suppliers_name' => 'required'
@@ -87,10 +87,10 @@ Divirta-se, seja criativo e sinta-se à vontade para tirar dúvidas.
 * 'suppliers_fee' => 'required'
 
 ## Edicao de fornecedores
-* PUT | supplier/{supplier_id}
+* PUT | api/supplier/edit/{supplier_id}
 
 ## Remocao de fornecedores
-* DELETE | supplier/{supplier_id}
+* DELETE | api/supplier/delete/{supplier_id}
 
 
 
