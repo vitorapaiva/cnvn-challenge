@@ -2,15 +2,13 @@
 
 namespace App\Http\Model\Supplier;
 
-use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
 
 class SupplierModel extends Model
 {
-	use Filterable;
-    protected $table = 'supplier';
-    protected $primaryKey = 'supplier_id';
-    protected $guarded = ['supplier_id'];
+	protected $table = 'suppliers';
+    protected $primaryKey = 'suppliers_id';
+    protected $guarded = ['suppliers_id'];
 
     public function company()
     {

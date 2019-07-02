@@ -4,7 +4,7 @@ namespace App\Http\Model\Supplier;
 
 use App\Http\Model\Supplier\SupplierModel;
 
-class SupplierApiRepository
+class SupplierApiRepository implements SupplierInterface
 {
 	private $model;
     
@@ -12,26 +12,27 @@ class SupplierApiRepository
     	$this->model=$model;
     }
 
-    public function getAllSupplier(){
-    	return $this->model->with(['company'])->orderBy('supplier_id')->get();
+    public function getAllSupplier($company_id){
+    	return $this->model->where('company_id',$company_id)->orderBy('suppliers_id')->get();
     }
 
-    public function getSupplier($supplier_id){
-    	return $this->model->with(['company'])->find($supplier_id);
+    public function getSupplier($company_id,$suppliers_id){
+    	return $this->model->where('company_id',$company_id)->where('suppliers_id',$suppliers_id)->first();
     }
 
-    public function createSupplier($array){
+    public function createSupplier($company_id,$array){
+        $array['company_id']=$company_id;
     	return $this->model->create($array);
     }
 
-    public function editSupplier($supplier_id,$array){
-    	$supplier=$this->model->find($supplier_id);
+    public function editSupplier($company_id,$suppliers_id,$array){
+    	$supplier=$this->getSupplier($company_id,$suppliers_id);
     	$supplier->fill($array);
     	return $supplier->save();
     }
 
-    public function deleteSupplier($supplier_id){
-    	$supplier=$this->model->find($supplier_id);
+    public function deleteSupplier($company_id,$suppliers_id){
+    	$supplier=$this->getSupplier($company_id,$suppliers_id);
     	return $supplier->delete();
     }
 }
