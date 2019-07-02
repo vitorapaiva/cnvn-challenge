@@ -2,9 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Http\Model\Company\CompanyModel;
+use App\Http\Model\User\UserModel;
 use App\Http\Model\Supplier\SupplierModel;
-use App\User;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -23,81 +22,89 @@ class SupplierTest extends TestCase
      * @return string
      */
     protected function authenticate(){
-        $user = User::create([
+        $data = [
+            'company_email' => 'teste@gmail.com',
+            'company_name' => 'Teste',
+            'company_tax_id' => 123456789,
+            'company_phone' => 123,
+            'company_cep' => 123,
             'email' => 'teste@gmail.com',
             'name' => 'Teste',
-            'password' => bcrypt('teste1234'),
-        ]);
-        $this->user = $user;
-        $token = JWTAuth::fromUser($user);
-        return $token;
+            'password' => 'teste1234',
+            'password_confirmation' => 'teste1234'
+        ];
+
+        //Send post request
+        $response = $this->json('POST',route('api.register'),$data);
+        return $response->getData()->token;
     }
 
     public function testCreate()
     {
-        //create company
-        $company=CompanyModel::create([
-            'company_name' => 'Farmaceuticos São Paulo'
-        ]);
-        
-        //get Bearer token
+        //login
         $token = $this->authenticate();
 
+        
+        //create supplier
         $response = $this->withHeaders([
             'Authorization' => 'Bearer '. $token,
-        ])->json('POST',route('add'),[
-            'supplier_name' => 'Seringa Tipo Pistola',
+        ])->json('POST',route('supplier.createSupplier'),[
+            'suppliers_name' => 'Convenia',
+            'suppliers_email' => 'vitorapaiva@gmail.com',
+            'suppliers_fee' => 10.2,
         ]);
-        //if 302 means that the page redirects successfully to the edit page
-        $response->assertStatus(302);
+
+        $response->assertStatus(200);
     }
 
     public function testUpdate(){
-        //create company
-        $company=CompanyModel::create([
-            'company_name' => 'Farmaceuticos Manaus'
-        ]);
-        //create supplier
-        $supplier = SupplierModel::create([
-            'supplier_name' => 'Antiinflamatorio Nimesulida',
-            'company_id' => $company->company_id
-        ]);
-        //get Bearer token
+        
+        //login
         $token = $this->authenticate();
-        //call route and assert response
+        
+        //create supplier returning its data
+        $supplier = $this->withHeaders([
+            'Authorization' => 'Bearer '. $token,
+        ])->json('POST',route('supplier.createSupplier'),[
+            'suppliers_name' => 'Convenia',
+            'suppliers_email' => 'vitorapaiva@gmail.com',
+            'suppliers_fee' => 10.2,
+        ])->getData();
+        //edit the supplier
         $response = $this->withHeaders([
             'Authorization' => 'Bearer '. $token,
-        ])->json('POST',route('edit',['supplier_id' => $supplier->supplier_id]),[
-            'supplier_name' => 'Antiinflamatorio Ibupofreno',
+        ])->json('PUT',route('supplier.editSupplier',['suppliers_id' => $supplier->suppliers_id]),[
+            'suppliers_name' => 'Teste Novo Nome',
         ]);
-        //if 302 means that the page redirects successfully to the edit page
-        $response->assertStatus(302);
-
-        //get supplier
-        $supplierUpdated=SupplierModel::find($supplier->supplier_id);
-        //Assert title is the new title
-        $this->assertEquals('Antiinflamatorio Ibupofreno',$supplierUpdated->supplier_name);
+        
+        $response->assertStatus(200);
+        
+        $supplierUpdated=SupplierModel::find($supplier->suppliers_id);
+       
+        $this->assertEquals('Teste Novo Nome',$supplierUpdated->suppliers_name);
     }
 
     public function testDelete(){
-        //create company
-        $company=CompanyModel::create([
-            'company_name' => 'Farmaceuticos Manaus'
-        ]);
-        //create supplier
-        $supplier = SupplierModel::create([
-            'supplier_name' => 'Antiinflamatorio Nimesulida',
-            'company_id' => $company->company_id
-        ]);
+        //login
         $token = $this->authenticate();
+        
+        //create supplier returning its data
+        $supplier = $this->withHeaders([
+            'Authorization' => 'Bearer '. $token,
+        ])->json('POST',route('supplier.createSupplier'),[
+            'suppliers_name' => 'Convenia',
+            'suppliers_email' => 'vitorapaiva@gmail.com',
+            'suppliers_fee' => 10.2,
+        ])->getData();
+
         $response = $this->withHeaders([
             'Authorization' => 'Bearer '. $token,
-        ])->json('POST',route('delete',['supplier_id' => $supplier->supplier_id]));
-        //if 302 means that the page redirects successfully to the home
-        $response->assertStatus(302);
-        //get supplier
-        $supplierDeleted=SupplierModel::find($supplier->supplier_id);
-        //Assert there are no recipes
+        ])->json('DELETE',route('supplier.deleteSupplier',['suppliers_id' => $supplier->suppliers_id]));
+        
+        $response->assertStatus(200);
+        
+        $supplierDeleted=SupplierModel::find($supplier->suppliers_id);
+        
         $this->assertEquals(null,$supplierDeleted);
     }
 }
