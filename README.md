@@ -58,6 +58,39 @@ Divirta-se, seja criativo e sinta-se à vontade para tirar dúvidas.
 * php artisan migrate
 * php artisan serve
 
+## Cadastro de usuários e empresas
+* POST | api/auth/register
+
+### Campos
+* 'company_name'=>'required'
+* 'company_email'=>'required|email|max:255|unique:company'
+* 'company_phone'=>'required'
+* 'company_cep'=>'required'
+* 'company_tax_id'=>'required'
+* 'email' => 'required|email|max:255|unique:users'
+* 'name' => 'required|max:255'
+* 'password' => 'required|min:8|confirmed'
+
+## Autenticacao de usuários e empresas
+* POST | api/auth/authenticate
+
+### Campos
+* 'email' => 'required|email'
+* 'password'=> 'required'
+
+## Cadastro de fornecedores
+* POST | api/supplier/
+
+### Campos
+* 'suppliers_name' => 'required'
+* 'suppliers_email' => 'required'
+* 'suppliers_fee' => 'required'
+
+## Edicao de fornecedores
+* PUT | supplier/{supplier_id}
+
+## Remocao de fornecedores
+* DELETE | supplier/{supplier_id}
 
 
 
