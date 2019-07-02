@@ -17,7 +17,7 @@ class CreateSuppliersTable extends Migration
             $table->bigIncrements('suppliers_id');
             $table->unsignedBigInteger('company_id')->nullable(false);
             $table->string('suppliers_name')->nullable(false);
-            $table->string('suppliers_email')->unique();
+            $table->string('suppliers_email');
             $table->float('suppliers_fee',10,2);
             $table->boolean('activated')->default(false);
             $table->foreign('company_id')->references('company_id')->on('company');
