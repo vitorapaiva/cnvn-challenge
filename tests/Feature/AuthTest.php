@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Http\Model\User\UserModel;
-use App\Http\Model\Company\CompanyModel;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,21 +15,16 @@ class AuthTest extends TestCase
      * Test registration
      */
     public function testRegister(){
-        //Create company
-        $model=CompanyModel::create([
+        $data = [
             'company_email' => 'teste@gmail.com',
             'company_name' => 'Teste',
             'company_tax_id' => 123456789,
             'company_phone' => 123,
-            'company_cep' => 123
-        ]);
-        //User's data
-        $data = [
+            'company_cep' => 123,
             'email' => 'teste@gmail.com',
             'name' => 'Teste',
             'password' => 'teste1234',
-            'password_confirmation' => 'teste1234',
-            'company_id' => $model->company_id
+            'password_confirmation' => 'teste1234'
         ];
 
         //Send post request
@@ -48,21 +42,19 @@ class AuthTest extends TestCase
     public function testLogin()
     {
         
-        //Create company
-        $model=CompanyModel::create([
+        $data = [
             'company_email' => 'teste@gmail.com',
             'company_name' => 'Teste',
             'company_tax_id' => 123456789,
             'company_phone' => 123,
-            'company_cep' => 123
-        ]);
-       //Create user
-        UserModel::create([
+            'company_cep' => 123,
             'email' => 'teste@gmail.com',
             'name' => 'Teste',
-            'password' => bcrypt('teste1234'),
-            'company_id' => $model->company_id
-        ]);
+            'password' => 'teste1234',
+            'password_confirmation' => 'teste1234'
+        ];
+
+        $this->json('POST',route('api.register'),$data);
 
         //attempt login
         $response = $this->json('POST',route('api.authenticate'),[
