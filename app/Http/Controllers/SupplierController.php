@@ -57,10 +57,10 @@ class SupplierController extends Controller
     public function verifySuppliers($token){
         $verifySupplier = VerifySupplierModel::where('token', $token)->first();
         if(isset($verifySupplier) ){
-            $supplier = $verifySupplier->user;
+            $supplier = $verifySupplier->supplier;
             if(!$supplier->activated) {
-              $verifySupplier->supplier->activated = 1;
-              $verifySupplier->supplier->save();
+              $supplier->activated = 1;
+              $supplier->save();
               $status = "Email verificado. Agradecemos sua atenção.";
             } else {
               $status = "Email já verificado. Agradecemos sua atenção.";
