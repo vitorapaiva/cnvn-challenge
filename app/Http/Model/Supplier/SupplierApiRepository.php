@@ -27,12 +27,18 @@ class SupplierApiRepository implements SupplierInterface
 
     public function editSupplier($company_id,$suppliers_id,$array){
     	$supplier=$this->getSupplier($company_id,$suppliers_id);
-    	$supplier->fill($array);
-    	return $supplier->save();
+        if(!is_null($supplier)){            
+            $supplier->fill($array);
+            return $supplier->save();
+        }
+        return false;
     }
 
     public function deleteSupplier($company_id,$suppliers_id){
     	$supplier=$this->getSupplier($company_id,$suppliers_id);
-    	return $supplier->delete();
+        if(!is_null($supplier)){            
+            return $supplier->delete();
+        }
+        return false;
     }
 }
