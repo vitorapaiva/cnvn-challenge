@@ -55,7 +55,7 @@ class SupplierController extends Controller
     }
 
     public function verifySuppliers($token){
-        $verifySupplier = VerifySupplier::where('token', $token)->first();
+        $verifySupplier = VerifySupplierModel::where('token', $token)->first();
         if(isset($verifySupplier) ){
             $supplier = $verifySupplier->user;
             if(!$supplier->activated) {
