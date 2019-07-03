@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Model\VerifySupplier\VerifySupplierModel;
+use App\Http\Model\VerifySupplier\VerifySupplierInterface;
 use App\Http\Model\Supplier\SupplierInterface;
 use App\Http\Mail\VerifySupplierMail;
 use Illuminate\Support\Facades\Mail;
@@ -14,12 +14,15 @@ class SupplierController extends Controller
 {
 
     private $supplierRepo;
-    private $supplier;
+    private $user;
+    private $verifyRepo;
 
-    public function __construct(SupplierInterface $supplierRepo)
+    public function __construct(SupplierInterface $supplierRepo,
+                                VerifySupplierInterface $verifyRepo)
     {
         $this->supplierRepo=$supplierRepo;
         $this->user = Auth::user();
+        $this->verifyRepo = $verifyRepo;
     }
 
     public function createSupplier(Request $request){
@@ -31,7 +34,7 @@ class SupplierController extends Controller
 
         $supplier=$this->supplierRepo->createSupplier($this->user->company_id,$request->except('_token'));
 
-        $verifySupplier = VerifySupplierModel::create([
+        $verifySupplier = $this->verifyRepo->createVerifySupplier([
         'suppliers_id' => $supplier->suppliers_id,
         'token' => sha1(time())
         ]);
@@ -55,8 +58,8 @@ class SupplierController extends Controller
     }
 
     public function verifySuppliers($token){
-        $verifySupplier = VerifySupplierModel::where('token', $token)->first();
-        if(isset($verifySupplier) ){
+        $verifySupplier = $this->verifyRepo->getVerifySupplier($token);
+        if(isset($verifySupplier)){
             $supplier = $verifySupplier->supplier;
             if(!$supplier->activated) {
               $supplier->activated = 1;
