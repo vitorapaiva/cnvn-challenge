@@ -53,7 +53,6 @@ class SupplierTest extends TestCase
             'suppliers_email' => 'teste-supplier@email.com',
             'suppliers_fee' => 10.2,
         ]);
-
         $response->assertStatus(200);
     }
 
