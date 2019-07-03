@@ -11,4 +11,4 @@
 |
 */
 
-Route::get('/supplier/verify/{token}', 'App\Http\Controllers\SupplierController@verifySuppliers');
+Route::get('/supplier/verify/{token}', 'SupplierController@verifySuppliers');
