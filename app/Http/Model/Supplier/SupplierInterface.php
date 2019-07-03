@@ -12,4 +12,5 @@ interface SupplierInterface
 	public function createSupplier($company_id,array $array_data);
 	public function editSupplier($company_id,$suppliers_id,array $array_data);
 	public function deleteSupplier($company_id,$suppliers_id);
+	public function getCompanyTotalCost($company_id);
 }

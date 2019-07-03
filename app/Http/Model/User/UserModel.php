@@ -2,6 +2,7 @@
 
 namespace App\Http\Model\User;
 
+use Watson\Rememberable\Rememberable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,6 +11,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class UserModel extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+    use Rememberable;
+    public $rememberCacheTag = 'user_queries';
+    public $rememberFor = 10; // 10 minutes
     protected $table = 'users';
     /**
      * The attributes that are mass assignable.
@@ -47,6 +51,10 @@ class UserModel extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function clearCache(){
+        UserModel::flushCache();
     }
 
 }
